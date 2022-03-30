@@ -1,0 +1,25 @@
+{
+  "name": "chonker",
+  "version": "1.0.0",
+  "description": "Дискорд-бот для программистов",
+  "main": "chonker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gXLg/chonker.git"
+  },
+  "author": "gXLg",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/gXLg/chonker/issues"
+  },
+  "homepage": "https://github.com/gXLg/chonker#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "discord.js": "^13.6.0",
+    "html-entities": "^2.3.3",
+    "nekos.life": "^2.0.9"
+  }
+}

@@ -187,7 +187,7 @@ bot.on("messageCreate", async message => {
     c.run(...parameter);
     log("[ " + name  + " / " + message.author.tag + " ] " + cmd + " (" +args.length + ")");
   } else {
-    if(!(await data.pull(message.guild.id).predict)) return;
+    if(!d.predict) return;
     const cmds = commands.map(c => c.name);
     const predict = require("gxlg_predict");
     const fix = predict(cmds, cmd);

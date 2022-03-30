@@ -14,7 +14,7 @@ module.exports = {
   "dep": ["message", "e", "inst", "args"],
   "args": [
     [
-      [/.*/gm]
+      [/.*/gm, arg => arg]
     ]
   ],
   "perm": [],

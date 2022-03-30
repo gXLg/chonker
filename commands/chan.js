@@ -9,7 +9,7 @@ async function run(message, e, args, data){
     if(d.chan)
       e.setDescription("Я доступен в <#" + d.chan + ">");
     else
-      s.setDescription("Фильтр на каналы не установлен");
+      e.setDescription("Фильтр на каналы не установлен");
     message.reply({ "embeds": [e] });
     return;
   } else if(chan == "none"){

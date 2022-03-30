@@ -1,7 +1,7 @@
 function run(bot, message, c, chan, creator){
   if(c.perm.includes("admin"))
     if(message.author.id != creator &&
-         ! message.member.hasPermission("ADMINISTRATOR"))
+         !message.member.permissionsIn(message.channel).has("ADMINISTRATOR"))
       return false;
   if(c.perm.includes("creator"))
     if(message.author.id != creator)

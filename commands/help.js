@@ -103,7 +103,7 @@ async function run(message, prefix, bot, e, args){
     t += "**:scroll: Ссылки**\n> Бот создан `sas24#9133` для [irrational](https://discord.gg/SpkFUDZv2P)\n" +
          "> [Пригласить меня](https://discord.com/api/oauth2/authorize?client_id=695414653794254858&permissions=7577&scope=bot) к тебе на сервер\n" +
          "> [Сервер поддержки](https://discord.gg/CfveTxCvwJ)\n" +
-         "> [Ссходники бота](https://github.com/gXLg/chonker)\n" +
+         "> [Исходники бота](https://github.com/gXLg/chonker)\n" +
          "> Не стесняйся оценить бота на [мониторинге](https://bots.server-discord.com/695414653794254858)\n" +
          "> Дизайн инспирирован SCrow";
     e.setDescription(t);

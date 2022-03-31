@@ -10,6 +10,8 @@ const creator = config.creator;
 class Database {
   constructor(path){
     this.path = path;
+    if(!fs.existsSync(path))
+      fs.writeFileSync(path, "{}");
     this.data = JSON.parse(fs.readFileSync(path));
     this.worker = [];
     this.id = 0;
@@ -115,7 +117,7 @@ async function setStatus(){
     "status": "dnd"
   };
   //bot.user.setPresence(status);
-  console.log(status);
+  //console.log(status);
   sinter = setTimeout(setStatus, 60 * 1000);
 }
 

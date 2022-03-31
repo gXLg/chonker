@@ -1,0 +1,6 @@
+{
+  "color" : "<standard embed color>",
+  "token" : "<your application token>",
+  "creator": "<your id>",
+  "prefix": "<bot prefix>"
+}

@@ -7,7 +7,7 @@ async function run(message, prefix, bot, e, args){
     "stat" : [ "Узнать статистику бота" ],
     "reload" : [ "Перезагрузка бота, только для создателя" ],
     "do" : [ "Обработать код\nЧтобы получить список языков, используй `" + prefix + "langs`",
-             prefix + "do <язык> <аргументы> [новая строка]\n```\ncode.to ( execute )\n```\n\n" + prefix + "do <язык> <аргументы> [прикреплённый файл с кодом]",
+             prefix + "do <язык> [код блок]\n\n" + prefix + "do <язык> [прикреплённый файл с кодом]",
              prefix + "do JavaScript\n```js\nconsole.log ( \"Hello World!\" )\n```",
              "Сеть: отключена\nКоличество процессов: 200\nЯдер: 1\nВиртуальной памяти: 620MB\nОткрытых файлов: 69\nВремя на исполнение: 30сек\nРазмер окружающей среды: 2MB\nДанные хранятся только 2 часа"
     ],
@@ -101,6 +101,7 @@ async function run(message, prefix, bot, e, args){
          "> Префикс бота можно поменять командой \\`" + prefix + "prefix\\`\n" +
          "> Альтернативно, ботом можно пользоваться, пинганув его, и написав команду после пинга\n";
     t += "**:scroll: Ссылки**\n> Бот создан `sas24#9133` для [irrational](https://discord.gg/SpkFUDZv2P)\n" +
+         "> Используя бота, ты соглашаешься с [условиями пользования](https://gxlg.github.io/chonker/tos)\n" +
          "> [Пригласить меня](https://discord.com/api/oauth2/authorize?client_id=695414653794254858&permissions=7577&scope=bot) к тебе на сервер\n" +
          "> [Сервер поддержки](https://discord.gg/CfveTxCvwJ)\n" +
          "> [Исходники бота](https://github.com/gXLg/chonker)\n" +

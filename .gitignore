@@ -1,6 +1,7 @@
 env/*
 configs/config.json
 .cache-require-paths.json
-old
 database/*
 logs/*
+
+!*/README.*

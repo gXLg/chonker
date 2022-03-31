@@ -32,4 +32,4 @@ module.exports = {
   "args": [],
   "perm": [],
   "category": "bot"
-}
+};

@@ -6,23 +6,6 @@ async function run(message, e, args){
   const author = message.member.nickname ?? message.author.username;
   const id = args[0];
   let mentioned;
-  /*
-  if(!args[0])
-    mentioned = " кричит 'БАКА!!1!'";
-  else if(args[0].match(/^<@\d+>$/))
-    id = args[0].slice(2, -1);
-  else if(args[0].match(/^<@!\d+>$/))
-    id = args[0].slice(3, -1);
-  else if(args[0].match(/^\d+$/))
-    id = args[0];
-  else {
-    e
-      .setDescription("[**ошибка**] Неверный формат")
-      .setFooter({ "text": "Подробнее: `" + prefix + "help baka`" });
-    message.reply({ "embeds": [e] });
-    return;
-  }
-  */
   if(id){
     try {
       mentioned = await message.guild.members.fetch(id);

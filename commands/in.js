@@ -1,4 +1,4 @@
-function run(message, e, inst, args){
+async function run(message, e, inst, args){
   const txt = args[0];
 
   if(!inst[message.author.id]){
@@ -19,4 +19,4 @@ module.exports = {
   ],
   "perm": [],
   "category": "coding"
-}
+};

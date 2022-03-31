@@ -1,12 +1,16 @@
-const fs = require ( "fs" )
-const extensions = JSON.parse ( fs.readFileSync ( "./configs/extensions.json" ))
+const fs = require("fs");
+const extensions = JSON.parse(fs.readFileSync("./configs/extensions.json"));
 
-function run ( message, e ) {
-  let langs = [ ]
-  for ( let i in extensions ) langs.push ( i )
-  e.setDescription ( langs.sort ( ).join ( ", " ))
-  message.reply ( e )
+async function run(message, e){
+  const langs = Object.keys(extensions);
+  e.setDescription(langs.sort().join(", "));
+  message.reply({ "embeds": [e] });
 }
 
-module.exports = run
-module.exports.dependencies = [ "message", "e" ]
+module.exports = {
+  "run": run,
+  "dep": ["message", "e"],
+  "args": [],
+  "perm": [],
+  "category": "coding"
+};

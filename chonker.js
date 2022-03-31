@@ -90,6 +90,7 @@ const bot = new ds.Client({ "intents": ["GUILDS", "GUILD_MESSAGES"] });
 
 const inst = { };
 
+let cinter;
 async function counter(){
   const entries = await col.entries();
   for(let en of entries){
@@ -99,7 +100,23 @@ async function counter(){
       await col.del(en);
     } else await col.put(en, d);
   }
-  setTimeout(counter, 10 * 60 * 1000);
+  cinter = setTimeout(counter, 10 * 60 * 1000);
+}
+
+let sinter;
+async function setStatus(){
+  const s = bot.guilds.cache.size;
+  const ending = (s % 100 != 11) && (s % 10 == 1) ? "е" : "ах";
+  const status = {
+    "activities": [{
+      "name": "программирую на " + s + " сервер" + ending,
+      "type": "PLAYING"
+    }],
+    "status": "dnd"
+  };
+  //bot.user.setPresence(status);
+  console.log(status);
+  sinter = setTimeout(setStatus, 60 * 1000);
 }
 
 bot.once("ready", async () => {
@@ -112,6 +129,7 @@ bot.once("ready", async () => {
   };
   bot.user.setPresence(status);
   counter();
+  setStatus();
   log("Logged in");
 });
 

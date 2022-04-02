@@ -18,6 +18,7 @@
   "homepage": "https://github.com/gXLg/chonker#readme",
   "dependencies": {
     "axios": "^0.26.1",
+    "cache-require-paths": "^0.3.0",
     "discord.js": "^13.6.0",
     "gxlg_predict": "^1.2.3",
     "html-entities": "^2.3.3",

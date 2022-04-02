@@ -25,6 +25,7 @@ async function run(message, e, bot, ds, data, done){
   let cuspr = 0;
   for(let i in await data.entries()){
     const d = await data.pull(i);
+    console.log(d);
     if(d.predict) predi ++;
     if(d.prefix) cuspr ++;
   }

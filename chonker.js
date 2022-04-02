@@ -187,7 +187,7 @@ bot.on("messageCreate", async message => {
   const command = commands.filter(c => c.name == cmd)[0];
   if(command){
     const c = command.r;
-    prove(bot, message, c, chan);
+    if(!prove(bot, message, c, chan, creator)) return;
     let count = 0;
     const args = [];
     for(let a of c.args){

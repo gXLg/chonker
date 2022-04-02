@@ -143,7 +143,7 @@ bot.once("ready", async () => {
 });
 
 bot.on("messageCreate", async message => {
-  if(message.author.id != creator) return;
+  //if(message.author.id != creator) return;
 
   const d = await data.pull(message.guild.id);
   const chan = d.chan ? d.chan == message.guild.id : true;

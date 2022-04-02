@@ -1,10 +1,11 @@
-function run ( ) { }
+async function run(message, e, get_commands){
+  get_commands(message, e);
+}
 
-module.exports = run
-module.exports.creator = true
-module.exports.dependencies = [ `
-  commands = get_commands ( )
-  data = get_data ( )
-  e.setDescription ( "Готово" )
-  message.reply ( e )
-` ]
+module.exports = {
+  "run": run,
+  "dep": ["message", "e", "get_commands"],
+  "args": [],
+  "perm": ["creator"],
+  "category": "bot"
+};

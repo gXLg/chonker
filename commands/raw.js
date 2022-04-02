@@ -1,44 +1,37 @@
-async function run ( message, prefix, e, args ) {
+async function run(message, e, args){
 
-  let id = args [ 0 ]
-  if ( ! id ) {
-    e
-      .setDescription ( "[**ошибка**] Ты не указал сообщение!" )
-      .setFooter ( "Подробней: `" + prefix + "help raw`" )
-    message.reply ( e )
-    return
+  const id = args[0];
+
+  let msg;
+  try {
+    msg = await message.channel.messages.fetch(id);
+  } catch {
+    e.setDescription("[**ошибка**] Данное сообщение не существует, либо мне не доступно!");
+    message.reply({ "embeds": [e] });
+    return;
+  }
+  if(!msg.content){
+    e.setDescription("[**ошибка**] Сообщение имеет пустое содержание!");
+    message.reply({ "embeds": [e] });
+    return;
   }
 
-  if ( ! id.match ( /^\d+$/ )) {
-    e
-      .setDescription ( "[**ошибка**] Неверный формат!" )
-      .setFooter ( "Подробней: `" + prefix + "help raw`" )
-    message.reply ( e )
-    return
-  }
+  let content = msg.content;
+  for(let i of "*_~`|@<>\\")
+    content = content.split(i).join("\\" + i);
 
-  let msg = await message.channel.messages.fetch ( id ).catch ( ( ) => {
-    e.setDescription ( "[**ошибка**] Данное сообщение не существует, либо мне не доступно!" );
-    message.reply ( e )
-    return
-  })
-  if(!msg) return;
-  if ( ! msg.content ) {
-    e
-      .setDescription ( "[**ошибка**] Сообщение имеет пустое содержание!" )
-      .setFooter ( "Подробней: `" + prefix + "help raw`" )
-    message.reply ( e )
-    return
-  }
-
-  let content = msg.content
-  for ( let i of "*_~`|@<>" )
-    content = content.split ( i ).join ( "\\" + i )
-
-  e.setDescription ( content )
-  message.reply ( e )
+  e.setDescription(content);
+  message.reply({ "embeds": [e] });
 }
 
-module.exports = run
-module.exports.dependencies = [ "message", "prefix", "e", "args" ]
-
+module.exports = {
+  "run": run,
+  "dep": ["message", "e", "args"],
+  "args": [
+    [
+      [/\d+/, arg => arg]
+    ]
+  ],
+  "perm": [],
+  "category": "other"
+}

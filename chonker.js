@@ -11,7 +11,7 @@ class Database {
   constructor(path){
     this.path = path;
     if(!fs.existsSync(path))
-      fs.writeFileSync(path, "{}");
+      fs.writeFileSync(path, "{ }");
     this.data = JSON.parse(fs.readFileSync(path));
     this.worker = [];
     this.id = 0;
@@ -75,15 +75,29 @@ const data = new Database("./database/data.json");
 const col = new Database("./database/collection.json");
 
 let commands;
-function get_commands(){
-  commands = glob.sync("./commands/" + "*.js").map(name => {
+async function get_commands(message, e){
+  const glo = glob.sync("./commands/" + "*.js");
+  commands = [];
+  const t = [];
+  for(let name of glo){
     const cmd = name.slice(0, -3).split("/")[2];
-    const r = require(name);
-    return {
-      "name": cmd,
-      "r": r
-    };
-  });
+    delete require.cache[require.resolve(name)];
+    let r;
+    try {
+      r = require(name);
+    } catch {
+      if(message){
+        t.push("> Ошибка при импорте \\`" + cmd + "\\`");
+      }
+      log("Error on importing " + cmd);
+      continue;
+    }
+    commands.push({ "name": cmd, "r": r });
+  }
+  if(message){
+    e.setDescription("Готово!\n" + t.join("\n"));
+    await message.reply({ "embeds": [e] });0
+  }
 }
 get_commands();
 
@@ -116,20 +130,13 @@ async function setStatus(){
     }],
     "status": "dnd"
   };
-  //bot.user.setPresence(status);
-  //console.log(status);
+  bot.user.setPresence(status);
   sinter = setTimeout(setStatus, 60 * 1000);
 }
 
+let done = 0;
+
 bot.once("ready", async () => {
-  const status = {
-    "activities": [{
-      "name": "Бот оживёт на выходных!",
-      "type": "PLAYING"
-    }],
-    "status": "idle"
-  };
-  bot.user.setPresence(status);
   counter();
   setStatus();
   log("Logged in");
@@ -206,6 +213,7 @@ bot.on("messageCreate", async message => {
     const parameter = c.dep.map(d => eval(d));
     c.run(...parameter);
     log("[ " + name  + " / " + message.author.tag + " ] " + cmd + " (" +args.length + ")");
+    done ++;
   } else {
     if(!d.predict) return;
     const cmds = commands.map(c => c.name);

@@ -1,17 +1,19 @@
-const neko_client = require ( "nekos.life" )
-const neko = new neko_client ( )
+const nekoClient = require("nekos.life");
+const neko = new nekoClient();
 
-function run ( message, e, args ) {
-  neko.sfw.smug ( )
-    .then ( json => {
-      let author = message.member.nickname || message.author.username
-      e
-        .setImage ( json.url )
-        .setDescription ( author + " глупо лыбится" )
-      message.reply ( e )
-    })
+async function run(message, e){
+  const json = await neko.sfw.smug();
+  const author = message.member.nickname ?? message.author.username;
+  e
+    .setImage(json.url)
+    .setDescription(author + " глупо лыбится");
+  message.reply({ "embeds": [e] });
 }
 
-module.exports = run
-module.exports.dependencies = [ "message", "e", "args" ]
-
+module.exports = {
+  "run": run,
+  "dep": ["message", "e"],
+  "args": [],
+  "perm": [],
+  "category": "roleplay"
+};

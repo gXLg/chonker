@@ -1,18 +1,21 @@
-function run ( ) { }
+async function run(message, e, args, data){
+  const d = await data.pull(message.guild.id);
+  if(args[0] == ">_") delete d.prefix;
+  else d.prefix = args[0];
+  await data.put(message.guild.id, d);
 
-module.exports = run
-module.exports.admin = true
-module.exports.dependencies = [ `
-  if ( args.length == 0 ) {
-    e
-      .setDescription ( "[**ошибка**] Ты не указал префикс для смены" )
-      .setFooter ( "Подробнее: \`" + prefix + "help prefix\`" )
-    message.reply ( e )
-  } else {
-    if ( ! data [ idname ]) data [ idname ] = { }
-    data [ idname ].prefix = args [ 0 ]
-    fs.writeFileSync ( "./database/data.json", JSON.stringify ( data ))
-    e.setDescription ( "Готово, префикс бота установлен на \`" + args[0] + "\`" )
-    message.reply ( e )
-  }
-` ]
+  e.setDescription("Готово, префикс бота установлен на \\`" + args[0] + "\\`");
+  message.reply({ "embeds": [e] });
+}
+
+module.exports = {
+  "run": run,
+  "dep": ["message", "e", "args", "data"],
+  "args": [
+    [
+      [/.+?/, arg => arg]
+    ]
+  ],
+  "perm": ["admin"],
+  "catergory": "server"
+};

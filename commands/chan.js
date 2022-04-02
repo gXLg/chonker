@@ -33,7 +33,7 @@ async function run(message, e, args, data, prefix){
     message.reply({ "embeds": [e] });
     return;
   }
-  if(cc.type != "text"){
+  if(cc.type != "GUILD_TEXT"){
     e
       .setDescription("[**ошибка**] Неверный тип канала")
       .setFooter({ "text": "Подробней: `" + prefix + "help chan`" });

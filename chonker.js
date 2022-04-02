@@ -215,6 +215,7 @@ bot.on("messageCreate", async message => {
     log("[ " + name  + " / " + message.author.tag + " ] " + cmd + " (" +args.length + ")");
     done ++;
   } else {
+    if(!chan) return;
     if(!d.predict) return;
     const cmds = commands.map(c => c.name);
     const predict = require("gxlg_predict");

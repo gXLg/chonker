@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-async function run(message, e, args, data){
+async function run(message, e, args, data, prefix){
   const chan = args[0];
   const idname = message.guild.id;
   const d = await data.pull(idname);
@@ -49,7 +49,7 @@ async function run(message, e, args, data){
 
 module.exports = {
   "run": run,
-  "dep": ["message", "e", "args", "data"],
+  "dep": ["message", "e", "args", "data", "prefix"],
   "args": [
      [
        [/(none)|(here)/i, arg => arg.toLowerCase()],

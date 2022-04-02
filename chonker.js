@@ -146,9 +146,9 @@ bot.on("messageCreate", async message => {
   //if(message.author.id != creator) return;
 
   const d = await data.pull(message.guild.id);
-  const chan = d.chan ? d.chan == message.guild.id : true;
+  const chan = d.chan ? (d.chan == message.channel.id) : true;
 
-  const prefix = d.prefix ?? ">_";
+  const prefix = d.prefix ?? config.prefix;
 
   const e = new ds.MessageEmbed()
     .setColor(config.color)

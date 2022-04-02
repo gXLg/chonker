@@ -1,7 +1,7 @@
 require("cache-require-paths");
 
 const config = require("./configs/config.json");
-const { log, require_ } = require("./configs/functions.js");
+const { log } = require("./configs/functions.js");
 const fs = require("fs");
 const glob = require("glob");
 const prove = require("./configs/prove.js");

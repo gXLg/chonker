@@ -23,9 +23,8 @@ async function run(message, e, bot, ds, data, done){
   bot.guilds.cache.forEach(guild => users += guild.memberCount);
   let predi = 0;
   let cuspr = 0;
-  for(let i in await data.entries()){
+  for(let i of await data.entries()){
     const d = await data.pull(i);
-    console.log(d);
     if(d.predict) predi ++;
     if(d.prefix) cuspr ++;
   }

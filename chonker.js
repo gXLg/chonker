@@ -1,7 +1,7 @@
 require("cache-require-paths");
 
 const config = require("./configs/config.json");
-const { log } = require("./configs/functions.js");
+const { log, perms } = require("./configs/functions.js");
 const fs = require("fs");
 const glob = require("glob");
 const prove = require("./configs/prove.js");
@@ -165,6 +165,7 @@ bot.on("messageCreate", async message => {
     spaces.splice(0, 1);
     if(!spaces[0]){
       if(!chan) return;
+      if(!await perms(message)) return;
       e.setDescription("Мой префикс на этом сервере: \\`" + prefix + "\\`");
       message.reply({ "embeds": [e] });
       return;
@@ -176,6 +177,7 @@ bot.on("messageCreate", async message => {
   const cmd = spaces[0].slice(prefix.length).toLowerCase();
   if(!cmd){
     if(!chan) return;
+    if(!await perms(message)) return;
     e.setDescription("Это мой префикс!");
     message.reply({ "embeds": [e] });
     return;
@@ -186,12 +188,9 @@ bot.on("messageCreate", async message => {
 
   const command = commands.filter(c => c.name == cmd)[0];
   if(command){
+    if(!await perms(message)) return;
     const c = command.r;
     if(!prove(bot, message, c, chan, creator)) return;
-    if(message.guild.me.permissions.has(125952)){
-      e.setDescription("[**ошибка**] На сервере " + message.guild.name + " мне не выдали все права, свяжитесь с владельцем сервера.");
-      message.author.send(e);
-    }
     let count = 0;
     const args = [];
     for(let a of c.args){
@@ -221,6 +220,7 @@ bot.on("messageCreate", async message => {
   } else {
     if(!chan) return;
     if(!d.predict) return;
+    if(!await perms(message)) return;
     const cmds = commands.map(c => c.name);
     const predict = require("gxlg_predict");
     const fix = predict(cmds, cmd);

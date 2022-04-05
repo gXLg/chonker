@@ -14,4 +14,13 @@ function log(text){
   console.log(get_time() + " | " + text);
 }
 
-module.exports = { log };
+async function perms(message){
+  if(!message.guild.me.permissionsIn(message.channel).has(125952n)){
+    e.setDescription("[**ошибка**] На сервере " + message.guild.name + " мне не выдали все права, свяжитесь с владельцем сервера.");
+    message.author.send({ "embeds": [e] });
+    return false;
+  }
+  return true;
+}
+
+module.exports = { log, perms };

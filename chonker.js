@@ -188,6 +188,10 @@ bot.on("messageCreate", async message => {
   if(command){
     const c = command.r;
     if(!prove(bot, message, c, chan, creator)) return;
+    if(message.guild.me.permissions.has(125952)){
+      e.setDescription("[**ошибка**] На сервере " + message.guild.name + " мне не выдали все права, свяжитесь с владельцем сервера.");
+      message.author.send(e);
+    }
     let count = 0;
     const args = [];
     for(let a of c.args){

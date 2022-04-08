@@ -40,8 +40,8 @@ async function run(message, e, args, data, prefix){
     message.reply({ "embeds": [e] });
     return;
   }
-  d.chan = cc;
-  await data.put(idname, d);
+  d.chan = chan;
+  await data.put(idname, chan);
 
   e.setDescription("Готово, теперь я доступен только в <#" + chan + ">");
   message.reply({ "embeds": [e] });

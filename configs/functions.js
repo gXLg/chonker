@@ -14,7 +14,7 @@ function log(text){
   console.log(get_time() + " | " + text);
 }
 
-async function perms(message){
+async function perms(message, e){
   if(!message.guild.me.permissionsIn(message.channel).has(125952n)){
     e.setDescription("[**ошибка**] На сервере " + message.guild.name + " мне не выдали все права, свяжитесь с владельцем сервера.");
     message.author.send({ "embeds": [e] });

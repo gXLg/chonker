@@ -165,7 +165,7 @@ bot.on("messageCreate", async message => {
     spaces.splice(0, 1);
     if(!spaces[0]){
       if(!chan) return;
-      if(!await perms(message)) return;
+      if(!await perms(message, e)) return;
       e.setDescription("Мой префикс на этом сервере: \\`" + prefix + "\\`");
       message.reply({ "embeds": [e] });
       return;
@@ -177,7 +177,7 @@ bot.on("messageCreate", async message => {
   const cmd = spaces[0].slice(prefix.length).toLowerCase();
   if(!cmd){
     if(!chan) return;
-    if(!await perms(message)) return;
+    if(!await perms(message, e)) return;
     e.setDescription("Это мой префикс!");
     message.reply({ "embeds": [e] });
     return;
@@ -188,7 +188,7 @@ bot.on("messageCreate", async message => {
 
   const command = commands.filter(c => c.name == cmd)[0];
   if(command){
-    if(!await perms(message)) return;
+    if(!await perms(message, e)) return;
     const c = command.r;
     if(!prove(bot, message, c, chan, creator)) return;
     let count = 0;
@@ -220,7 +220,7 @@ bot.on("messageCreate", async message => {
   } else {
     if(!chan) return;
     if(!d.predict) return;
-    if(!await perms(message)) return;
+    if(!await perms(message, e)) return;
     const cmds = commands.map(c => c.name);
     const predict = require("gxlg_predict");
     const fix = predict(cmds, cmd);

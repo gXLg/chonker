@@ -69,7 +69,8 @@ async function run(message, prefix, bot, e, args){
                prefix + "tickle <упоминание пользователя>" ],
     "smug" : [ "Ухмылка :]" ],
     "predict" : [ "Включить или выключить предсказывание команд",
-                  prefix + "predict on/off" ]
+                  prefix + "predict on/off" ],
+    "custom": [ "Кастомные команды (альфа)" ]
   };
 
   const txt = args[0];

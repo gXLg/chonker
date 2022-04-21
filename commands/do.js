@@ -176,7 +176,7 @@ module.exports = {
     ],
     [
       [new RegExp(), arg => false],
-      [/`{3}\w*\n?[\S\s]+?\n?`{3}/m, arg => arg.slice(arg.split(/\s/)[0].length, -3).trim()]
+      [/`{3}\w*\n?[\S\s]+?\n?`{3}/m, arg => arg.slice(arg.split(/\s/)[0].length, - 3).trim()]
     ]
   ],
   "perm": [],

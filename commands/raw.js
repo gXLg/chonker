@@ -17,8 +17,10 @@ async function run(message, e, args){
   }
 
   let content = msg.content;
-  for(let i of "*_~`|@<>\\")
+  for(let i of "*_~`|<>\\")
     content = content.split(i).join("\\" + i);
+  content = content.split("@everyone").join("`@everyone`");
+  content = content.split("@here").join("`@here`");
 
   e.setDescription(content);
   message.reply({ "embeds": [e] });

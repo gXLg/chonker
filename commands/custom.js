@@ -4,6 +4,16 @@ async function run(message, prefix, e, args){
     message.reply({ "embeds": [e] });
     return;
   }
+  let output = "";
+  e.setDescription("```\n \n```");
+  const msg = await message.reply({ "embeds": [e] });
+
+  const code = args[0].split("\n").filter(l => !!l);
+  for(const line of code){
+    output += line;
+    e.setDescription(output);
+    await msg.edit({ "embeds": [e] });
+  }
 }
 
 module.exports = {

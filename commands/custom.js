@@ -1,3 +1,5 @@
+
+
 async function run(message, prefix, e, args){
   if(message.author.id != "557260090621558805"){
     e.setDescription("Эта команда находится в разработке!");

@@ -43,7 +43,7 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
 
   const dir = "./database/custom_events/" + gid;
   if(!fs.existsSync(dir)) fs.mkdirSync(dir);
-  fs.writeFileSync(dir + "/messageCreate.cho", code);
+  fs.writeFileSync(dir + "/" + eventName + ".cho", code);
 
   if(!("d" in d))
     d.d = [eventName];

@@ -1,78 +1,15 @@
 require("cache-require-paths");
 
 const config = require("./configs/config.json");
-const { log, perms } = require("./configs/functions.js");
+const { log, perms, Database } = require("./configs/functions.js");
 const fs = require("fs");
 const glob = require("glob");
 const prove = require("./configs/prove.js");
 const creator = config.creator;
 
-class Database {
-  constructor(path){
-    this.path = path;
-    if(!fs.existsSync(path))
-      fs.writeFileSync(path, "{ }");
-    this.data = JSON.parse(fs.readFileSync(path));
-    this.worker = [];
-    this.id = 0;
-  }
-  entries(){
-    return new Promise(async (res, rej) => {
-      const id = [this.id ++, "pull"];
-      this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
-      res([...Object.keys(this.data)]);
-      this.worker.splice(0, 1);
-    });
-  }
-  pull(entry, expect){
-    return new Promise(async (res, rej) => {
-      const id = [this.id ++, "pull"];
-      this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
-      if(!(entry in this.data)){
-        await this.#fill(entry, expect ?? { });
-      }
-      const data = this.data[entry];
-      res(data);
-      this.worker.splice(0, 1);
-    });
-  }
-  del(entry){
-    return new Promise(async (res, rej) => {
-      const id = [this.id ++, "put"];
-      this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
-      delete this.data[entry];
-      if(!this.worker.slice(1).map(w => w[1]).includes("put"))
-        fs.writeFileSync(this.path, JSON.stringify(this.data));
-      res();
-      this.worker.splice(0, 1);
-    });
-  }
-  put(entry, data){
-    return new Promise(async (res, rej) => {
-      const id = [this.id ++, "put"];
-      this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
-      this.data[entry] = data;
-      if(!this.worker.slice(1).map(w => w[1]).includes("put"))
-        fs.writeFileSync(this.path, JSON.stringify(this.data));
-      res();
-      this.worker.splice(0, 1);
-    });
-  }
-  #fill(entry, data){
-    return new Promise(async (res, rej) => {
-      this.data[entry] = data;
-      fs.writeFileSync(this.path, JSON.stringify(this.data));
-      res();
-    });
-  }
-}
-
 const data = new Database("./database/data.json");
 const col = new Database("./database/collection.json");
+const custom = new Database("./database/custom_events.json");
 
 let commands;
 async function get_commands(message, e){
@@ -80,23 +17,23 @@ async function get_commands(message, e){
   commands = [];
   const t = [];
   for(let name of glo){
-    const cmd = name.slice(0, -3).split("/")[2];
+    const cmd = name.slice(0, - 3).split("/")[2];
     delete require.cache[require.resolve(name)];
     let r;
     try {
       r = require(name);
-    } catch {
+    } catch(error){
       if(message){
         t.push("> Ошибка при импорте \\`" + cmd + "\\`");
       }
-      log("Error on importing " + cmd);
+      log("Error on importing " + cmd + ": " + error);
       continue;
     }
     commands.push({ "name": cmd, "r": r });
   }
   if(message){
     e.setDescription("Готово!\n" + t.join("\n"));
-    await message.reply({ "embeds": [e] });0
+    await message.reply({ "embeds": [e] });
   }
 }
 get_commands();
@@ -109,7 +46,7 @@ const inst = { };
 let cinter;
 async function counter(){
   const entries = await col.entries();
-  for(let en of entries){
+  for(const en of entries){
     const d = (await col.pull(en)) - 1;
     if(!d){
       fs.rmSync("./env/" + en, { "recursive": true });
@@ -139,7 +76,7 @@ let done = 0;
 bot.once("ready", async () => {
   counter();
   setStatus();
-  log("Logged in");
+  log("Logged in as " + bot.user.username);
 });
 
 bot.on("messageCreate", async message => {
@@ -155,26 +92,28 @@ bot.on("messageCreate", async message => {
 
   if(message.author.bot) return;
 
-  const spaces = message.content.trim().split(" ");
+  let first = message.content.trim().split(/[ \t\n]+/)[0];
+  let all = message.content.trim().slice(first.length).trim();
 
   const ping = new RegExp("^\\<@!?" + bot.user.id + "\\>$");
 
-  if(!spaces[0].match(ping)){
-    if(spaces[0].slice(0, prefix.length) != prefix) return;
+  if(!first.match(ping)){
+    if(first.slice(0, prefix.length) != prefix) return;
   } else {
-    spaces.splice(0, 1);
-    if(!spaces[0]){
+    if(!all){
       if(!chan) return;
       if(!await perms(message, e)) return;
       e.setDescription("Мой префикс на этом сервере: \\`" + prefix + "\\`");
       message.reply({ "embeds": [e] });
       return;
     }
-    spaces[0] = prefix + spaces[0];
+    first = all.split(/[ \t\n]+/)[0];
+    all = all.slice(first.length).trim();
+    first = prefix + first;
   }
-  if(spaces[0].slice(0, prefix.length) != prefix) return;
+  if(first.slice(0, prefix.length) != prefix) return;
 
-  const cmd = spaces[0].slice(prefix.length).toLowerCase();
+  const cmd = first.slice(prefix.length).toLowerCase();
   if(!cmd){
     if(!chan) return;
     if(!await perms(message, e)) return;
@@ -182,7 +121,7 @@ bot.on("messageCreate", async message => {
     message.reply({ "embeds": [e] });
     return;
   }
-  let txt = spaces.slice(1).join(" ");
+  let txt = all;
   const name = message.channel.name;
   if(!name) return;
 
@@ -230,5 +169,26 @@ bot.on("messageCreate", async message => {
     message.reply({ "embeds": [e] });
   }
 });
+
+const { execute } = require("./configs/cho.js");
+const listeners = { };
+(async () => {
+  const entries = await custom.entries();
+  for(const en of entries){
+    const d = await custom.pull(en);
+    const cid = d.cid;
+    for(const eventName of d.d){
+      const code = fs.readFileSync("./database/custom_events/" + en + "/" + eventName + ".cho", "utf8");
+      const listen = event => {
+        if(event.guild.id == en)
+          execute(code, eventName, event, cid, config, bot);
+      };
+      if(!(en in listeners))
+        listeners[en] = { };
+      listeners[en][eventName] = listen;
+      bot.on(eventName, listen);
+    }
+  }
+})();
 
 bot.login(config.token);

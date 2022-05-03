@@ -70,7 +70,10 @@ async function run(message, prefix, bot, e, args){
     "smug" : [ "Ухмылка :]" ],
     "predict" : [ "Включить или выключить предсказывание команд",
                   prefix + "predict on/off" ],
-    "custom": [ "Кастомные команды (альфа)" ]
+    "custom": [ "Кастомные ивенты (находится в разработке)",
+                prefix + "custom <название ивента> <код> - установить код на ивент\n\n" +
+                prefix + "custom <название ивента> clear - очистить ивент",
+                prefix + "custom guildMemberAdd\n```\nWRITE 896327117673988117, \"Welcome, <@\" + member.\"id\" + \">!\"\n```" ]
   };
 
   const txt = args[0];

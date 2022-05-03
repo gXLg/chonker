@@ -172,7 +172,7 @@ module.exports = {
   ],
   "args": [
     [
-      [/\w+/, arg => arg.toLowerCase()]
+      [/.*?/, arg => arg.toLowerCase()]
     ],
     [
       [new RegExp(), arg => false],

@@ -1,2 +1,0 @@
-NEW Database amogus = "amogus"
-WRITE message."channel"."id", amogus."biggus"

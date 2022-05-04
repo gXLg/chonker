@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { Database } = require("./functions.js");
+const { Database, choGuild } = require("./functions.js");
 const glob = require("glob");
 
 async function run(code, eventName, events, e){
@@ -673,7 +673,7 @@ async function run(code, eventName, events, e){
       if(output.type.name != "List")
         throw new Error("WRITE needs a List as an argument");
       const id = output._get(new Instance({ i: 0 }, Int))._call("_str").i;
-      const channel = event.guild.channels.cache.get(id);
+      const channel = choGuild(eventName, events).channels.cache.get(id);
       const content = output._get(new Instance({ i: 1 }, Int))._call("_str").i;
       if(!content.trim().length)
         throw new Error("Message may not be empty");
@@ -706,4 +706,13 @@ async function execute(code, eventName, events, cid, config, bot){
   }
 }
 
-module.exports = { execute };
+function choGuild(eventName, events){
+  if(eventName == "messageReactionAdd")
+    return events[0].message.guild;
+  if(eventName == "messageCreate")
+    return events[0].guild;
+  if(eventName == "guildMemberAdd")
+    return events[0].guild;
+}
+
+module.exports = { execute, choGuild };

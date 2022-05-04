@@ -170,7 +170,7 @@ bot.on("messageCreate", async message => {
   }
 });
 
-const { execute } = require("./configs/cho.js");
+const { execute, choGuild } = require("./configs/cho.js");
 const listeners = { };
 (async () => {
   const entries = await custom.entries();
@@ -180,13 +180,7 @@ const listeners = { };
     for(const eventName of d.d){
       const code = fs.readFileSync("./database/custom_events/" + en + "/" + eventName + ".cho", "utf8");
       const listen = (...events) => {
-        if(eventName == "messageReactionAdd")
-          if(events[0].message.guild.id != en) return;
-        if(eventName == "messageCreate")
-          if(events[0].guild.id != en) return;
-        if(eventName == "guildMemberAdd")
-          if(events[0].guild.id != en) return;
-
+        if(choGuild(eventName, events).id != en) return;
         execute(code, eventName, events, cid, config, bot);
       };
       if(!(en in listeners))

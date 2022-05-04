@@ -1,4 +1,4 @@
-const { execute } = require("../configs/cho.js");
+const { execute, choGuild } = require("../configs/cho.js");
 const fs = require("fs");
 
 async function run(message, prefix, e, args, bot, custom, config, listeners){
@@ -57,13 +57,7 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
     bot.removeListener(eventName, listeners[gid][eventName]);
 
   const listen = (...events) => {
-    if(eventName == "messageReactionAdd")
-      if(events[0].message.guild.id != en) return;
-    if(eventName == "messageCreate")
-      if(events[0].guild.id != en) return;
-    if(eventName == "guildMemberAdd")
-      if(events[0].guild.id != en) return;
-
+    if(choGuild(eventName, events).id != gid) return;
     execute(code, eventName, events,
             message.channel.id, config, bot);
   };

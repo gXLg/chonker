@@ -580,7 +580,7 @@ async function run(code, eventName, events, e){
     const user = events[1];
 
     variables.reaction = new Instance(null, Obj);
-    variables.reaction._set({ i: "emoji" }, new Instance({ i: reaction.emoji }, Str));
+    variables.reaction._set({ i: "emoji" }, new Instance({ i: reaction.emoji.toString() }, Str));
     variables.reaction._set({ i: "message" }, new Instance(null, Obj));
 
     variables.reaction.prop.message._set(

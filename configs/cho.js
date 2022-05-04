@@ -580,7 +580,8 @@ async function run(code, eventName, events, e){
     const user = events[1];
 
     variables.reaction = new Instance(null, Obj);
-    variables.reaction._set({ i: "emoji" }, new Instance({ i: reaction.emoji.toString() }, Str));
+    const emo = reaction.emoji.id ? reaction.emoji.toString() : reaction.emoji.name;
+    variables.reaction._set({ i: "emoji" }, new Instance({ i: emo }, Str));
     variables.reaction._set({ i: "message" }, new Instance(null, Obj));
 
     variables.reaction.prop.message._set(
@@ -674,6 +675,7 @@ async function run(code, eventName, events, e){
         throw new Error("WRITE needs a List as an argument");
       const id = output._get(new Instance({ i: 0 }, Int))._call("_str").i;
       const channel = choGuild(eventName, events).channels.cache.get(id);
+      if(!channel) throw new Error("Unknown channel");
       const content = output._get(new Instance({ i: 1 }, Int))._call("_str").i;
       if(!content.trim().length)
         throw new Error("Message may not be empty");

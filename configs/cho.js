@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { Database, choGuild } = require("./functions.js");
+const { Database } = require("./functions.js");
 const glob = require("glob");
 
 async function run(code, eventName, events, e){

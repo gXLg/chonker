@@ -575,7 +575,7 @@ async function run(code, eventName, events, e){
     variables.member = new Instance(null, Obj);
     variables.member._set({ i: "id" }, new Instance({ i: member.id }, Str));
     variables.member._set({ i: "name" }, new Instance({ i: member.user.username }, Str));
-  } else if(eventName == "messageReactionAdd"){
+  } else if(eventName == "messageReactionAdd" || eventName == "messageReactionRemove"){
     const reaction = events[0];
     const user = events[1];
 
@@ -710,6 +710,8 @@ async function execute(code, eventName, events, cid, config, bot){
 
 function choGuild(eventName, events){
   if(eventName == "messageReactionAdd")
+    return events[0].message.guild;
+  if(eventName == "messageReactionRemove")
     return events[0].message.guild;
   if(eventName == "messageCreate")
     return events[0].guild;

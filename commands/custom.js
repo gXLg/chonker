@@ -9,7 +9,7 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
     return;
   }
 
-  const events = ["messageCreate", "guildMemberAdd", "messageReactionAdd"];
+  const events = ["messageCreate", "guildMemberAdd", "messageReactionAdd", "messageReactionRemove"];
   const eventName = args[0];
   if(!events.includes(eventName)){
     e.setDescription("[**ошибка**] Указан неверный ивент");

@@ -179,9 +179,15 @@ const listeners = { };
     const cid = d.cid;
     for(const eventName of d.d){
       const code = fs.readFileSync("./database/custom_events/" + en + "/" + eventName + ".cho", "utf8");
-      const listen = event => {
-        if(event.guild.id == en)
-          execute(code, eventName, event, cid, config, bot);
+      const listen = (...events) => {
+        if(eventName == "messageReactionAdd")
+          if(events[0].message.guild.id != en) return;
+        if(eventName == "messageCreate")
+          if(events[0].guild.id != en) return;
+        if(eventName == "guildMemberAdd")
+          if(events[0].guild.id != en) return;
+
+        execute(code, eventName, events, cid, config, bot);
       };
       if(!(en in listeners))
         listeners[en] = { };

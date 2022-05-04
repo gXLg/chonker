@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 const { Database } = require("./functions.js");
 const glob = require("glob");
 
-async function run(code, eventName, event, e){
+async function run(code, eventName, events, e){
 
   class Token {
     constructor(value, type){
@@ -549,10 +549,10 @@ async function run(code, eventName, event, e){
   };
 
   if(eventName == "messageCreate"){
-    const message = event;
+    const message = event[0];
     if(message.author.bot) return;
 
-    variables.message = new Instance({ }, Obj);
+    variables.message = new Instance(null, Obj);
     variables.message._set({ i: "id" }, new Instance({ i: message.id }, Str));
     variables.message._set({ i: "content" }, new Instance({ i: message.content }, Str));
     variables.message._set({ i: "channel" }, new Instance(null, Obj));
@@ -570,10 +570,45 @@ async function run(code, eventName, event, e){
       { i: "name" }, new Instance({ i: message.author.username }, Str)
     );
   } else if(eventName == "guildMemberAdd"){
-    const member = event;
+    const member = events[0];
 
-    variables.member = new Instance({ }, Obj);
+    variables.member = new Instance(null, Obj);
     variables.member._set({ i: "id" }, new Instance({ i: member.id }, Str));
+    variables.member._set({ i: "name" }, new Instance({ i: member.user.username }, Str));
+  } else if(eventName == "messageReactionAdd"){
+    const reaction = events[0];
+    const user = events[1];
+
+    variables.reaction = new Instance(null, Obj);
+    variables.reaction._set({ i: "emoji" }, new Instance({ i: reaction.emoji }, Str));
+    variables.reaction._set({ i: "message" }, new Instance(null, Obj));
+
+    variables.reaction.prop.message._set(
+      { i: "id" }, new Instance({ i: reaction.message.id }, Str)
+    );
+    variables.reaction.prop.message._set(
+      { i: "content" }, new Instance({ i: reaction.message.content }, Str)
+    );
+    variables.reaction.prop.message._set(
+      { i: "channel" }, new Instance(null, Obj)
+    );
+    variables.reaction.prop.message.prop.channel.prop._set(
+      { i: "id" }, new Instance({ i: reaction.message.channel.id }, Str)
+    );
+    variables.reaction.prop.message._set(
+      { i: "author" }, new Instance(null, Obj)
+    );
+    variables.reaction.prop.message.prop.author.prop._set(
+      { i: "id" }, new Instance({ i: reaction.message.author.id }, Str)
+    );
+    variables.reaction.prop.message.prop.author.prop._set(
+      { i: "name" }, new Instance({ i: reaction.message.author.username }, Str)
+    );
+
+    variables.user = new Instance(null, Obj);
+    variables.user._set({ i: "id" }, new Instance({ i: user.id }, Str));
+    variables.user._set({ i: "name" }, new Instance({ i: user.username }, Str));
+
   }
 
   const jump = { };
@@ -654,14 +689,14 @@ async function run(code, eventName, event, e){
   }
 }
 
-async function execute(code, eventName, event, cid, config, bot){
+async function execute(code, eventName, events, cid, config, bot){
   const e = new MessageEmbed().setColor(config.color);
   let channel;
   try {
     channel = bot.channels.cache.get(cid);
   } catch { }
   try {
-    await run(code, eventName, event, e);
+    await run(code, eventName, events, e);
   } catch(error){
     console.log(error);
     if(channel){

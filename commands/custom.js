@@ -56,10 +56,16 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
   if(eventName in listeners[gid])
     bot.removeListener(eventName, listeners[gid][eventName]);
 
-  const listen = event => {
-    if(event.guild.id == message.guild.id)
-      execute(code, eventName, event,
-              message.channel.id, config, bot);
+  const listen = (...events) => {
+    if(eventName == "messageReactionAdd")
+      if(events[0].message.guild.id != en) return;
+    if(eventName == "messageCreate")
+      if(events[0].guild.id != en) return;
+    if(eventName == "guildMemberAdd")
+      if(events[0].guild.id != en) return;
+
+    execute(code, eventName, events,
+            message.channel.id, config, bot);
   };
   bot.on(eventName, listen);
   listeners[gid][eventName] = listen;

@@ -240,10 +240,10 @@ async function run(code, eventName, events, e){
       const j = i._call("_str").i;
       if(!j.match(/^[A-Za-z_][A-Za-z_0-9]*$/))
         throw new Error(j + " is not a valid database name");
-      const dbs = glob.sync("./database/custom_events/" + event.guild.id + "/database_*.json");
+      const dbs = glob.sync("./database/custom_events/" + choGuild(eventName, events).id + "/database_*.json");
       if(dbs.length >= 5)
         throw new Error("You may only have 5 databases per guild!");
-      return new Database("./database/custom_events/" + event.guild.id + "/database_" + j + ".json");
+      return new Database("./database/custom_events/" + choGuild(eventName, events).id + "/database_" + j + ".json");
     },
     _get: (self, prop) => {
       const entry = self.i.pullSync(prop._call("_str").i, []);
@@ -549,7 +549,7 @@ async function run(code, eventName, events, e){
   };
 
   if(eventName == "messageCreate"){
-    const message = event[0];
+    const message = events[0];
     if(message.author.bot) return;
 
     variables.message = new Instance(null, Obj);

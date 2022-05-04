@@ -592,16 +592,16 @@ async function run(code, eventName, events, e){
     variables.reaction.prop.message._set(
       { i: "channel" }, new Instance(null, Obj)
     );
-    variables.reaction.prop.message.prop.channel.prop._set(
+    variables.reaction.prop.message.prop.channel._set(
       { i: "id" }, new Instance({ i: reaction.message.channel.id }, Str)
     );
     variables.reaction.prop.message._set(
       { i: "author" }, new Instance(null, Obj)
     );
-    variables.reaction.prop.message.prop.author.prop._set(
+    variables.reaction.prop.message.prop.author._set(
       { i: "id" }, new Instance({ i: reaction.message.author.id }, Str)
     );
-    variables.reaction.prop.message.prop.author.prop._set(
+    variables.reaction.prop.message.prop.author._set(
       { i: "name" }, new Instance({ i: reaction.message.author.username }, Str)
     );
 

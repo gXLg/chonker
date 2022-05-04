@@ -39,7 +39,10 @@ async function get_commands(message, e){
 get_commands();
 
 const ds = require("discord.js");
-const bot = new ds.Client({ "intents": ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS"] });
+const bot = new ds.Client({ "intents": [
+  "GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS",
+  "GUILD_MESSAGE_REACTIONS"
+] });
 
 const inst = { };
 

@@ -6,5 +6,5 @@ logs/*
 
 !*/README.*
 database/custom_events/*
-!database/custom_events*
+!database/custom_events
 !database/custom_events/README.*

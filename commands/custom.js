@@ -37,6 +37,12 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
     e.setDescription("Ивент " + eventName + " был очищен");
     message.reply({ "embeds": [e] });
     return;
+  } else if(args[1] == "show"){
+    const code = fs.readFileSync("./database/custom_events/" + gid + "/" + eventName + ".cho");
+    const escaped = "\`\`\`\n" + code.replace(/\`\`\`/g, "'''") + "\n\`\`\`";
+    e.setDescription("**Код для ивента " + eventName + "**\n" + escaped);
+    message.reply({ "embeds": [e] });
+    return;
   }
 
   const code = args[1].split("\n").map(l => l.trim()).filter(l => !!l).join("\n");

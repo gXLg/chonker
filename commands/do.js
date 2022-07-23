@@ -9,7 +9,7 @@ async function run(message, prefix, e, inst, args, col){
   /*
   if(message.author.id != "557260090621558805"){
     e.setDescription("[**ошибка**] Эта команда находится в разработке, ошибка безопасности была найдена и сейчас разработчик её фиксит.");
-    await message.reply({"embeds": [e]});
+    await message.reply({"embeds": [e]}, false);
     return;
   }
   */
@@ -20,13 +20,13 @@ async function run(message, prefix, e, inst, args, col){
   if(!fs.existsSync(env)) fs.mkdirSync(env)
   if(message.author.id in inst){
     e.setDescription("[**ошибка**] У тебя уже запущен один процесс в твоей среде!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   size(env, async (err, bytes) => {
     if(err || (bytes > 2097152)){
       e.setDescription("[**ошибка**] Твоя среда содержит поломанные файлы, либо превышает лимит по размеру. Чтобы очистить среду, используй `" + prefix + "clear`!");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
       return;
     }
     const lang = args[0];
@@ -37,7 +37,7 @@ async function run(message, prefix, e, inst, args, col){
         e
           .setDescription("[**ошибка**] Код не распознан либо отсутствует!")
           .setFooter({ "text": "Подробней: `" + prefix + "help do`" });
-        message.reply({ "embeds": [e] });
+        message.reply({ "embeds": [e] }, false);
         return;
       }
       let response;
@@ -45,14 +45,14 @@ async function run(message, prefix, e, inst, args, col){
         response = await axios.get(file);
       } catch(error){
         e.setDescription("[**ошибка**] Ошибка при получении файла!");
-        message.reply({ "embeds": [e] });
+        message.reply({ "embeds": [e] }, false);
         return;
       }
       code = response.data;
     }
     if(!extensions[lang]){
       e.setDescription("[**ошибка**] Неизвестный язык, получить список языков: `" + prefix + "langs`");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
       return;
     }
     const ext = extensions[lang][0];
@@ -95,7 +95,7 @@ async function run(message, prefix, e, inst, args, col){
 
       if(first){
         e.setDescription(n);
-        msg = await message.reply({ "embeds": [e] });
+        msg = await message.reply({ "embeds": [e] }, false);
         return;
       }
 
@@ -105,7 +105,7 @@ async function run(message, prefix, e, inst, args, col){
           await msg.edit({ "embeds": [e] });
         } catch(err){
           e.setDescription("[**ошибка**] По неизвестной причине я не могу изменить своё старое сообщение! Пожалуйста проверьте, что у бота есть все нужные права!");
-          await message.reply({ "embeds": [e] });
+          await message.reply({ "embeds": [e] }, false);
         }
         return;
       }
@@ -117,7 +117,7 @@ async function run(message, prefix, e, inst, args, col){
           await msg.edit({ "embeds": [e] });
         } catch(err){
           e.setDescription("[**ошибка**] По неизвестной причине я не могу изменить своё старое сообщение! Пожалуйста проверьте, что у бота есть все нужные права!");
-          await message.reply({ "embeds": [e] });
+          await message.reply({ "embeds": [e] }, false);
         }
       }
     }
@@ -129,7 +129,7 @@ async function run(message, prefix, e, inst, args, col){
       fs.writeFileSync(env + "/code." + ext, code);
     } catch(err){
       e.setDescription("[**ошибка**] Не получается сохранить код в исходном файле. Попробуй очистить свою среду с помощью `" + prefix + "clear`");
-      await message.reply({ "embeds": [e] });
+      await message.reply({ "embeds": [e] }, false);
       return;
     }
 

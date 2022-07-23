@@ -10,19 +10,19 @@ async function run(message, e, args, data, prefix){
       e.setDescription("Я доступен в <#" + d.chan + ">");
     else
       e.setDescription("Фильтр на каналы не установлен");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   } else if(chan == "none"){
     delete d.chan;
     await data.put(idname, d)
     e.setDescription("Готово, фильтр канала удалён");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   } else if(chan == "here"){
     d.chan = message.channel.id;
     await data.put(idname, d);
     e.setDescription("Готово, теперь я доступен только в этом канале");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   let cc = message.guild.channels.cache.get(chan);
@@ -30,21 +30,21 @@ async function run(message, e, args, data, prefix){
     e
       .setDescription("[**ошибка**] Данный канал не существует, либо мне не доступен")
       .setFooter({ "text": "Подробней: `" + prefix + "help chan`" });
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   if(cc.type != "GUILD_TEXT"){
     e
       .setDescription("[**ошибка**] Неверный тип канала")
       .setFooter({ "text": "Подробней: `" + prefix + "help chan`" });
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   d.chan = chan;
   await data.put(idname, chan);
 
   e.setDescription("Готово, теперь я доступен только в <#" + chan + ">");
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

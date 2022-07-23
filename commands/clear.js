@@ -6,19 +6,19 @@ async function run(message, e, inst, col){
 
   if(!fs.existsSync(env)){
     e.setDescription("Готово");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   if(inst[message.author.id]){
     e.setDescription("[**ошибка**] У тебя запущен процесс в твоей среде!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   fs.rmSync(env, { "recursive": true });
   await col.del(message.author.id);
 
   e.setDescription("Готово");
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

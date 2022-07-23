@@ -55,7 +55,7 @@ async function run(message, e, bot, ds, data, done){
   t += "**:rocket: Система**\n" + sst;
 
   e.setDescription(t);
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

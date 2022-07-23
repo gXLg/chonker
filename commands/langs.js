@@ -4,7 +4,7 @@ const extensions = JSON.parse(fs.readFileSync("./configs/extensions.json"));
 async function run(message, e){
   const langs = Object.keys(extensions);
   e.setDescription(langs.sort().join(", "));
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

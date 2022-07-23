@@ -7,12 +7,12 @@ async function run(message, e, args){
     msg = await message.channel.messages.fetch(id);
   } catch {
     e.setDescription("[**ошибка**] Данное сообщение не существует, либо мне не доступно!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   if(!msg.content){
     e.setDescription("[**ошибка**] Сообщение имеет пустое содержание!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
 
@@ -23,7 +23,7 @@ async function run(message, e, args){
   content = content.split("@here").join("`@here`");
 
   e.setDescription(content);
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

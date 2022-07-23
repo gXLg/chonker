@@ -2,7 +2,7 @@ async function run(message, e, bot, cinter, sinter){
   clearInterval(cinter);
   clearInterval(sinter);
   e.setDescription(":wave: Отключаюсь!");
-  await message.reply({ "embeds": [e] });
+  await message.reply({ "embeds": [e] }, false);
   bot.destroy();
   //process.exit();
 }

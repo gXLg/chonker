@@ -33,7 +33,7 @@ async function get_commands(message, e){
   }
   if(message){
     e.setDescription("Готово!\n" + t.join("\n"));
-    await message.reply({ "embeds": [e] });
+    await message.reply({ "embeds": [e] }, false);
   }
 }
 get_commands();
@@ -107,7 +107,7 @@ bot.on("messageCreate", async message => {
       if(!chan) return;
       if(!await perms(message, e)) return;
       e.setDescription("Мой префикс на этом сервере: \\`" + prefix + "\\`");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
       return;
     }
     first = all.split(/[ \t\n]+/)[0];
@@ -121,7 +121,7 @@ bot.on("messageCreate", async message => {
     if(!chan) return;
     if(!await perms(message, e)) return;
     e.setDescription("Это мой префикс!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   let txt = all;
@@ -148,7 +148,7 @@ bot.on("messageCreate", async message => {
         e
           .setDescription("[**ошибка**] Неверно указан либо отсутствует " + (count + 1) + ". аргумент")
           .setFooter({ "text": "Подробнее: `" + prefix + "help " + cmd + "`" });
-        message.reply({ "embeds": [e] });
+        message.reply({ "embeds": [e] }, false);
         return;
       }
       count ++;
@@ -169,7 +169,7 @@ bot.on("messageCreate", async message => {
     e.setDescription("[**ошибка**] Неверная команда! " +
                     (fix ? ("Ты имел ввиду \\`" + prefix + fix + "\\`?")
                          : "Используй \\`" + prefix + "help\\` для помощи или \\`" + prefix + "commands\\` для списка команд."));
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
   }
 });
 

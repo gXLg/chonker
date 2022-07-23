@@ -16,13 +16,13 @@ async function run(message, e){
         e.setDescription("**:nerd: Программисты**\n" +
                          randomJoke.setup + "\n||" +
                          randomJoke.delivery + "||");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
     })
 
     res.on("error", err => {
       console.error(`Joke error: ${err}`);
       e.setDescription("[**ошибка**] Попробуйте позже!");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
     });
   });
 }

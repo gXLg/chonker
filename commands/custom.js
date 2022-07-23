@@ -41,7 +41,7 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
     const code = fs.readFileSync("./database/custom_events/" + gid + "/" + eventName + ".cho", "utf8");
     const escaped = "\`\`\`\n" + code.replace(/\`\`\`/g, "'''") + "\n\`\`\`";
     e.setDescription("**Код для ивента " + eventName + "**\n" + escaped);
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
 
@@ -71,7 +71,7 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
   listeners[gid][eventName] = listen;
 
   e.setDescription("Код успешно был установлен на ивент " + eventName);
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

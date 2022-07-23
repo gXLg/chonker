@@ -10,7 +10,7 @@ async function run(message, e, args){
     mentioned = await message.guild.members.fetch(id);
   } catch {
     e.setDescription("[**ошибка**] Этот пользователь не существует либо мне недоступен");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   mentioned = mentioned.nickname ?? mentioned.user.username;
@@ -21,7 +21,7 @@ async function run(message, e, args){
   e
     .setImage(json.url)
     .setDescription(author + mentioned);
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

@@ -113,7 +113,7 @@ async function run(message, prefix, bot, e, args){
          "> Дизайн инспирирован SCrow";
     e.setDescription(t);
   }
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

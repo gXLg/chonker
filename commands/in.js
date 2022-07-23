@@ -3,7 +3,7 @@ async function run(message, e, inst, args){
 
   if(!inst[message.author.id]){
     e.setDescription("[**ошибка**] В твоей среде нету запущенных процессов!");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
   inst[message.author.id].stdin.write(txt + "\n");

@@ -4,12 +4,12 @@ async function run(message, e, data, args){
     delete d.predict;
     await data.put(message.guild.id, d);
     e.setDescription("Готово, корректировка отключена");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
   } else if(args[0] == "on"){
     d.predict = true;
     await data.put(message.guild.id, d);
     e.setDescription("Готово, корректировка включена");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
   }
 }
 

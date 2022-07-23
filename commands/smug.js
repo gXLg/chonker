@@ -7,7 +7,7 @@ async function run(message, e){
   e
     .setImage(json.url)
     .setDescription(author + " глупо лыбится");
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

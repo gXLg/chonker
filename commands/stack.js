@@ -20,7 +20,7 @@ async function run(message, e, args){
       const questions = JSON.parse(buffer.join(""));
       if(!questions.items){
         e.setDescription("[**ошибка**] Что-то пошло не так...\n");
-        message.reply({ "embeds": [e] });
+        message.reply({ "embeds": [e] }, false);
         return;
       }
       let a = questions.items.map(q =>
@@ -31,12 +31,12 @@ async function run(message, e, args){
       if(questions.has_more) e.setFooter({ "text": "Топ 10 результатов" });
       if(!a) a = "Результаты отсутсвуют";
       e.setDescription(a);
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
       return;
     }).on("error", err => {
       console.error(`Stack error: ${err}`);
       e.setDescription("[**ошибка**] Попробуйте позже!");
-      message.reply({ "embeds": [e] });
+      message.reply({ "embeds": [e] }, false);
     });
   });
 }

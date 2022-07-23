@@ -21,7 +21,7 @@ async function run(message, e, commands){
          cmds.sort().join(", ") + "\n";
   }
   e.setDescription(t);
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

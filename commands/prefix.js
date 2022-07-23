@@ -5,7 +5,7 @@ async function run(message, e, args, data){
   await data.put(message.guild.id, d);
 
   e.setDescription("Готово, префикс бота установлен на \\`" + args[0] + "\\`");
-  message.reply({ "embeds": [e] });
+  message.reply({ "embeds": [e] }, false);
 }
 
 module.exports = {

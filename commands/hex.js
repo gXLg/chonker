@@ -19,7 +19,7 @@ async function run(message, prefix, e, args){
       .setTitle("Ты нашёл пасхалку!")
       .addField("Логотип", "#ABC353")
       .addField("Фон", "#253238");
-    message.reply({ "embeds": [e] });
+    message.reply({ "embeds": [e] }, false);
     return;
   }
 
@@ -53,11 +53,11 @@ async function run(message, prefix, e, args){
         .setDescription(desc.join("\n"))
         .setImage("https://dummyimage.com/100x50/" + color + "/" + color);
 
-      message.reply({"embeds": [e]});
+      message.reply({ "embeds": [e] }, false);
     }).on("error", err => {
       console.error(`Color error: ${err}`);
       e.setDescription("[**ошибка**] Попробуйте позже!");
-      message.reply({"embeds": [e]});
+      message.reply({ "embeds": [e] }, false);
     });
   });
 }

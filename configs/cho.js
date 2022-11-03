@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { Database } = require("./functions.js");
+const TimePromise = require("./timePromise.js");
 const glob = require("glob");
 
 async function run(code, eventName, events, e){
@@ -689,6 +690,7 @@ async function run(code, eventName, events, e){
       if(c.v()._call("_bool").i) l = jump[name];
     } else throw new Error(command + " is not a valid command");
   }
+  return 69;
 }
 
 async function execute(code, eventName, events, cid, config, bot){
@@ -698,7 +700,13 @@ async function execute(code, eventName, events, cid, config, bot){
     channel = bot.channels.cache.get(cid);
   } catch { }
   try {
-    await run(code, eventName, events, e);
+    const r = await new TimePromise(async (res, rej) => {
+      try {
+        res(await run(code, eventName, events, e));
+      } catch(err){ rej(err); }
+    }, 5000);
+    if(r == null) throw new Error("Timeout exceeded");
+    else if(r != 69) throw r;
   } catch(error){
     console.log(error);
     if(channel){

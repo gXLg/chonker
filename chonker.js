@@ -65,10 +65,12 @@ async function setStatus(){
   const ending = (s % 100 != 11) && (s % 10 == 1) ? "е" : "ах";
   const status = {
     "activities": [{
-      "name": "программирую на " + s + " сервер" + ending,
+      "name": process.env.test == "true" ?
+        ("тестирование") :
+        ("программирую на " + s + " сервер" + ending),
       "type": "PLAYING"
     }],
-    "status": "dnd"
+    "status": process.env.test == "true" ? "idle" : "dnd"
   };
   bot.user.setPresence(status);
   sinter = setTimeout(setStatus, 60 * 1000);
@@ -175,6 +177,16 @@ bot.on("messageCreate", async message => {
 
 const { execute, choGuild } = require("./configs/cho.js");
 const listeners = { };
+[
+  "messageCreate", "guildMemberAdd",
+  "messageReactionAdd", "messageReactionRemove"
+].forEach(e => {
+  listeners[e] = {};
+  bot.on(e, (...x) => {
+    listeners[e][choGuild(e, x).id]?.(...x);
+  });
+});
+
 (async () => {
   const entries = await custom.entries();
   for(const en of entries){
@@ -186,10 +198,7 @@ const listeners = { };
         if(choGuild(eventName, events).id != en) return;
         execute(code, eventName, events, cid, config, bot);
       };
-      if(!(en in listeners))
-        listeners[en] = { };
-      listeners[en][eventName] = listen;
-      bot.on(eventName, listen);
+      listeners[eventName][en] = listen;
     }
   }
 })();

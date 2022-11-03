@@ -27,12 +27,9 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
       d.d = [];
     else if(d.d.includes(eventName))
       d.d = d.d.filter(i => i != eventName);
-    await custom.put(message.guild.id, d);
-    if(!(gid in listeners))
-      listeners[gid] = { };
 
-    if(eventName in listeners[gid])
-      bot.removeListener(eventName, listeners[gid][eventName]);
+    await custom.put(message.guild.id, d);
+    delete listeners[eventName][gid];
 
     e.setDescription("Ивент " + eventName + " был очищен");
     message.reply({ "embeds": [e] });
@@ -56,19 +53,13 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
   else if(!d.d.includes(eventName))
     d.d.push(eventName);
   await custom.put(message.guild.id, d);
-  if(!(gid in listeners))
-    listeners[gid] = { };
-
-  if(eventName in listeners[gid])
-    bot.removeListener(eventName, listeners[gid][eventName]);
 
   const listen = (...events) => {
     if(choGuild(eventName, events).id != gid) return;
     execute(code, eventName, events,
             message.channel.id, config, bot);
   };
-  bot.on(eventName, listen);
-  listeners[gid][eventName] = listen;
+  listeners[eventName][gid] = listen;
 
   e.setDescription("Код успешно был установлен на ивент " + eventName);
   message.reply({ "embeds": [e] }, false);

@@ -551,7 +551,7 @@ async function run(code, eventName, events, e){
 
   if(eventName == "messageCreate"){
     const message = events[0];
-    if(message.author.bot) return;
+    if(message.author.bot) return 69;
 
     variables.message = new Instance(null, Obj);
     variables.message._set({ i: "id" }, new Instance({ i: message.id }, Str));

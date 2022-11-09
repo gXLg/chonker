@@ -21,11 +21,12 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
 
   const d = await custom.pull(gid);
   d.cid = message.channel.id;
+  if(!("d" in d))
+    d.d = [];
+  await custom.put(message.guild.id, d);
 
   if(args[1] == "clear"){
-    if(!("d" in d))
-      d.d = [];
-    else if(d.d.includes(eventName))
+    if(d.d.includes(eventName))
       d.d = d.d.filter(i => i != eventName);
 
     await custom.put(message.guild.id, d);
@@ -35,8 +36,11 @@ async function run(message, prefix, e, args, bot, custom, config, listeners){
     message.reply({ "embeds": [e] });
     return;
   } else if(args[1] == "show"){
-    const code = fs.readFileSync("./database/custom_events/" + gid + "/" + eventName + ".cho", "utf8");
-    const escaped = "\`\`\`\n" + code.replace(/\`\`\`/g, "'''") + "\n\`\`\`";
+    let escaped = "`отсутсвует`";
+    if(d.d.includes(eventName)){
+      const code = fs.readFileSync("./database/custom_events/" + gid + "/" + eventName + ".cho", "utf8");
+      escaped = "\`\`\`\n" + code.replace(/\`\`\`/g, "'''") + "\n\`\`\`";
+    }
     e.setDescription("**Код для ивента " + eventName + "**\n" + escaped);
     message.reply({ "embeds": [e] }, false);
     return;

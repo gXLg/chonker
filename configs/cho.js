@@ -627,12 +627,50 @@ async function run(code, eventName, events, e){
     }
   }
 
-  for(let l = 0; l < code.length; l ++){
+  let l = 0;
+  let error;
+  let write_limit = 3;
+
+  let timeout = false;
+  const t = setTimeout(() => { timeout = true; }, 5000);
+
+  const r = await new Promise((res, rej) => {
+    let run = false;
+    const runner = setInterval(
+      async () => {
+        if(run) return;
+        if(timeout){
+          clearInterval(runner);
+          res(new Error("Time limit exceeded"));
+          return;
+        }
+        if(l == code.length){
+          clearInterval(runner);
+          clearTimeout(t);
+          res(69);
+          return;
+        }
+        try {
+          run = true;
+          await runLine();
+          run = false;
+        } catch(e){
+          clearInterval(runner);
+          res(e);
+          return;
+        }
+        l ++;
+      }, 10
+    );
+  });
+  return r;
+
+  async function runLine(){
     const line = code[l];
 
     const command = line.split(/[ \t]+/)[0];
     if(command == "FLAG"){
-      continue;
+      return;
     } else if(command == "JUMP"){
       const name = line.split(/[ \t]+/)[1];
       if(!(name in jump))
@@ -670,6 +708,8 @@ async function run(code, eventName, events, e){
         place._set(name, new Instance(c.v(), place.prop[name].type));
       }
     } else if(command == "WRITE"){
+      if(!write_limit) throw new Error("More than 3 messages sent per event");
+      write_limit --;
       const c = M.parse(M.lex(element(line, 1)));
       const output = c.v();
       if(output.type.name != "List")
@@ -690,23 +730,24 @@ async function run(code, eventName, events, e){
       if(c.v()._call("_bool").i) l = jump[name];
     } else throw new Error(command + " is not a valid command");
   }
-  return 69;
 }
 
 async function execute(code, eventName, events, cid, config, bot){
+  console.log("Running custom event for", eventName);
   const e = new MessageEmbed().setColor(config.color);
   let channel;
   try {
     channel = bot.channels.cache.get(cid);
   } catch { }
   try {
-    const r = await new TimePromise(async (res, rej) => {
+    /*const r = await new TimePromise(async (res, rej) => {
       try {
-        res(await run(code, eventName, events, e));
-      } catch(err){ rej(err); }
+        res(await run(code, eventName, events, e, res));
+      } catch(err){ res(err); }
     }, 5000);
-    if(r == null) throw new Error("Timeout exceeded");
-    else if(r != 69) throw r;
+    */
+    const r = await run(code, eventName, events, e);
+    if(r != 69) throw r;
   } catch(error){
     console.log(error);
     if(channel){

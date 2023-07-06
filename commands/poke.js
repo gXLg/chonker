@@ -2,7 +2,7 @@ const nekoClient = require("nekos.life");
 const neko = new nekoClient();
 
 async function run(message, e, args){
-  const json = await neko.sfw.poke();
+  const json = await neko.poke();
   const author = message.member.nickname ?? message.author.username;
   const id = args[0];
   let mentioned;

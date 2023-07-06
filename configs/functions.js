@@ -40,16 +40,26 @@ class Database {
     return new Promise(async (res, rej) => {
       const id = [this.id ++, "pull"];
       this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
+      await this.wait(id);
       res([...Object.keys(this.data)]);
       this.worker.splice(0, 1);
+    });
+  }
+  wait(id){
+    return new Promise(res => {
+      const i = setInterval(() => {
+        if(this.worker.indexOf(id) == 0){
+          clearInterval(i);
+          res();
+        }
+      }, 0);
     });
   }
   pull(entry, expect){
     return new Promise(async (res, rej) => {
       const id = [this.id ++, "pull"];
       this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
+      await this.wait(id);
       if(!(entry in this.data)){
         await this.#fill(entry, expect ?? { });
       }
@@ -58,22 +68,11 @@ class Database {
       this.worker.splice(0, 1);
     });
   }
-  pullSync(entry, expect){
-    const id = [this.id ++, "pull"];
-    this.worker.push(id);
-    while(this.worker.indexOf(id) > 0){ }
-    if(!(entry in this.data)){
-      this.#fillSync(entry, expect ?? { });
-    }
-    const data = this.data[entry];
-    this.worker.splice(0, 1);
-    return data;
-  }
   del(entry){
     return new Promise(async (res, rej) => {
       const id = [this.id ++, "put"];
       this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
+      await this.wait(id);
       delete this.data[entry];
       if(!this.worker.slice(1).map(w => w[1]).includes("put"))
         fs.writeFileSync(this.path, JSON.stringify(this.data));
@@ -81,20 +80,11 @@ class Database {
       this.worker.splice(0, 1);
     });
   }
-  delSync(entry){
-    const id = [this.id ++, "put"];
-    this.worker.push(id);
-    while(this.worker.indexOf(id) > 0){ }
-    delete this.data[entry];
-    if(!this.worker.slice(1).map(w => w[1]).includes("put"))
-      fs.writeFileSync(this.path, JSON.stringify(this.data));
-    this.worker.splice(0, 1);
-  }
   put(entry, data){
     return new Promise(async (res, rej) => {
       const id = [this.id ++, "put"];
       this.worker.push(id);
-      while(this.worker.indexOf(id) > 0){ }
+      await this.wait(id);
       this.data[entry] = data;
       if(!this.worker.slice(1).map(w => w[1]).includes("put"))
         fs.writeFileSync(this.path, JSON.stringify(this.data));
@@ -102,25 +92,12 @@ class Database {
       this.worker.splice(0, 1);
     });
   }
-  putSync(entry, data){
-    const id = [this.id ++, "put"];
-    this.worker.push(id);
-    while(this.worker.indexOf(id) > 0){ }
-    this.data[entry] = data;
-    if(!this.worker.slice(1).map(w => w[1]).includes("put"))
-      fs.writeFileSync(this.path, JSON.stringify(this.data));
-    this.worker.splice(0, 1);
-  }
   #fill(entry, data){
     return new Promise(async (res, rej) => {
       this.data[entry] = data;
       fs.writeFileSync(this.path, JSON.stringify(this.data));
       res();
     });
-  }
-  #fillSync(entry, data){
-    this.data[entry] = data;
-    fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
 }
 

@@ -2,7 +2,7 @@ const nekoClient = require("nekos.life");
 const neko = new nekoClient();
 
 async function run(message, e){
-  const json = await neko.sfw.smug();
+  const json = await neko.smug();
   const author = message.member.nickname ?? message.author.username;
   e
     .setImage(json.url)

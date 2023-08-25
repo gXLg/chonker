@@ -1,7 +1,7 @@
 const fs = require("fs");
 const size = require("fast-folder-size");
 const extensions = JSON.parse(fs.readFileSync("./configs/extensions.json"));
-const { spawn } = require ("child_process");
+const { spawn } = require("child_process");
 const axios = require("axios");
 
 async function run(message, prefix, e, inst, args, col){

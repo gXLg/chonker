@@ -43,6 +43,6 @@ module.exports = {
       [/`{3}\w*\n?[\S\s]+?\n?`{3}/m, arg => arg.slice(arg.split(/\s/)[0].length, - 3).trim()]
     ]
   ],
-  "perms": ["creator"],
+  "perm": ["creator"],
   "category": "bot"
 };

@@ -4,7 +4,7 @@ async function run(message, e, args){
 
   const a = Date.now();
   try {
-    const ret = await eval(code);
+    const ret = await eval("(async() => { " + code + " })();");
     const b = Date.now();
     let r = ret.toString();
     if(typeof ret == "object")

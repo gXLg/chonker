@@ -1,7 +1,7 @@
 async function run(message, e, bot){
   let time = Math.round(bot.ws.ping);
   e.setDescription("**:stopwatch: Pong!**\n> " +
-                     "Задержка: " + time + " мс\nTest test :)");
+                     "Задержка: " + time + " мс");
   message.reply({ "embeds": [e] }, false);
 }
 

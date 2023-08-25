@@ -6,7 +6,7 @@ async function run(message, e, args){
   try {
     const ret = await eval("(async() => { " + code + " })();");
     const b = Date.now();
-    let r = ret.toString();
+    let r = ret + "";
     if(typeof ret == "object")
       r = JSON.stringify(ret);
     r = r.replace(/`/g, "'");

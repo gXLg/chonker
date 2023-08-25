@@ -733,7 +733,7 @@ async function run(code, eventName, events, e){
 }
 
 async function execute(code, eventName, events, cid, config, bot){
-  console.log("Running custom event for", eventName);
+  //console.log("Running custom event for", eventName);
   const e = new MessageEmbed().setColor(config.color);
   let channel;
   try {

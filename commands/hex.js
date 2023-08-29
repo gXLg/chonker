@@ -12,7 +12,7 @@ async function run(message, prefix, e, args){
   return
   */
 
-  const color = args[0];
+  let color = args[0];
 
   if(color == "chonker" || color == "чонкер"){
     e

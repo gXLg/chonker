@@ -2,16 +2,6 @@ const https = require("https");
 
 async function run(message, prefix, e, args){
 
-  /*
-  message.mentions.users.forEach ( men => {
-    e.setImage ( men.displayAvatarURL ( { size: 2048 }))
-    //console.log ( men.displayAvatarURL ( { size: 2048 }))
-    message.channel.send ( e )
-  })
-
-  return
-  */
-
   let color = args[0];
 
   if(color == "chonker" || color == "чонкер"){
@@ -22,16 +12,6 @@ async function run(message, prefix, e, args){
     message.reply({ "embeds": [e] }, false);
     return;
   }
-
-  if(color[0] == "#")
-    color = color.slice(1);
-
-  if(color.length == 1)
-    color = color.repeat(6);
-  else if(color.length == 2)
-    color = color.repeat(3);
-  else if(color.length == 3)
-    color = [...color].map(x => x + "" + x).join("");
 
   https.get("https://www.thecolorapi.com/id?hex=" + color, res => {
 

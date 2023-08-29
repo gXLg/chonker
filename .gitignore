@@ -8,3 +8,5 @@ logs/*
 database/custom_events/*
 !database/custom_events
 !database/custom_events/README.*
+
+node_modules

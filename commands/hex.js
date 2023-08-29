@@ -52,11 +52,11 @@ module.exports = {
       [/(чонкер)|(chonker)/i, arg => arg.toLowerCase()],
       [/#[0-9a-f]{1}/i, arg => arg.slice(1).repeat(6)],
       [/#[0-9a-f]{2}/i, arg => arg.slice(1).repeat(3)],
-      [/#[0-9a-f]{3}/i, arg => [...arg.slice(1)].map(x => x.repeat(2))],
+      [/#[0-9a-f]{3}/i, arg => [...arg.slice(1)].map(x => x.repeat(2)).join("")],
       [/#[0-9a-f]{6}/i, arg => arg.slice(1)],
       [/[0-9a-f]{1}/i, arg => arg.repeat(6)],
       [/[0-9a-f]{2}/i, arg => arg.repeat(3)],
-      [/[0-9a-f]{3}/i, arg => [...arg].map(x => x.repeat(2))],
+      [/[0-9a-f]{3}/i, arg => [...arg].map(x => x.repeat(2)).join("")],
       [/[0-9a-f]{6}/i, arg => arg]
     ]
   ],

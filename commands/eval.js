@@ -1,4 +1,4 @@
-async function run(message, e, args){
+async function run(message, e, bot, args){
 
   const code = args[0];
 
@@ -36,7 +36,7 @@ async function run(message, e, args){
 module.exports = {
   run,
   "dep": [
-    "message", "e", "args"
+    "message", "e", "bot", "args"
   ],
   "args": [
     [
